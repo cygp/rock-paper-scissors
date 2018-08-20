@@ -32,5 +32,7 @@
     "onchange": "^4.1.0",
     "rimraf": "^2.6.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash.update": "^4.10.2"
+  }
 }
