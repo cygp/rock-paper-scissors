@@ -1,10 +1,11 @@
-
   var output = document.getElementById('output');
   var result = document.getElementById('result');
   var rounds = document.getElementById('rounds');
+  var playerMoveButton = document.querySelectorAll('.player-move');
   var playerScore;
   var computerScore;
   var numberOfRunds = 0;
+
   //wyświetlanie tekstu
   var log = function(outputElement ,text){
       outputElement.innerHTML = text + "<br>";
@@ -29,19 +30,29 @@
     };
   };
   //przypisywanie stringa do wartości
-  function getMove(value) {
-  return ['PAPER', 'ROCK', 'SCISSORS'][value]; //trochę zmodyfikowałem, żeby była unwersalna dla wyświetlania ruchu gracza i komputera
+  function getComputerMove() {
+  return ['PAPER', 'ROCK', 'SCISSORS'][Math.floor(Math.random()*3)];
+  }
+
+  function moveValue(value) {
+    if (value == 'PAPER') {
+      return 0;
+    } else if (value == 'ROCK') {
+      return 1;
+    } else {
+      return 2;
+    }
   }
   //główna funkcja
-  var playerMove = function(playerChoise){
-    var playerChoise;
+  var playerMove = function(playerChoise){ 
+    var playerChoise = playerChoise.toUpperCase();
     var gameResult;
-    var computerMove = Math.floor(Math.random()*3);
+    var computerMove = getComputerMove();
     if (playerScore < toWin(numberOfRunds) && computerScore < toWin(numberOfRunds) && numberOfRunds > 0 && playerScore + computerScore != numberOfRunds) { //jeżeli liczba rund mieści się w limicie
-      if (playerChoise - computerMove == -1 || playerChoise - computerMove == 2) { //gra
+      if (moveValue(playerChoise) - moveValue(computerMove) == -1 || moveValue(playerChoise) - moveValue(computerMove) == 2) { //gra
         gameResult = '<strong><span style="color:#27ae60;">YOU WON!</span></strong>';
         playerScore ++;
-      } else if (playerChoise - computerMove == 0) {
+      } else if (moveValue(playerChoise) - moveValue(computerMove) == 0) {
          gameResult = '<span style="color:#f1c40f;">DRAW:</span>';
       } else {
          gameResult = '<span style="color:#e74c3c;">YOU LOSE:</span>';
@@ -49,22 +60,29 @@
       }
       if (playerScore == toWin(numberOfRunds) || computerScore == toWin(numberOfRunds)) {
           if (playerScore > computerScore) {
-            log(output, gameResult + " you played: " + getMove(playerChoise) + " computer played: " + getMove(computerMove) + '<br> YOU WON THE ENTIRE GAME!!!');
+            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU WON THE ENTIRE GAME!!!');
             log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
           } else {
-            log(output, gameResult + " you played: " + getMove(playerChoise) + " computer played: " + getMove(computerMove) + '<br> YOU LOSE THE ENTIRE GAME!!!');
+            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU LOSE THE ENTIRE GAME!!!');
             log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
           }
       } else if (playerScore + computerScore == numberOfRunds && computerScore < toWin(numberOfRunds) && playerScore < toWin(numberOfRunds)) {
-        log(output, gameResult + " you played: " + getMove(playerChoise) + " computer played: " + getMove(computerMove) + '<br> DRAW IN THE ENTIRE GAME!!!'); //czy to jest ok?
+        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> DRAW IN THE ENTIRE GAME!!!'); //czy to jest ok?
         log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
       } else {
-        log(output, gameResult + " you played: " + getMove(playerChoise) + " computer played: " + getMove(computerMove));
+        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
         log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
       }
     } else {
           output.innerHTML += numberOfRunds ?
             'Game over, please press the new game button!<br>' :
-            ' Please press the new game button!<br>'
+            ' Please press the new game button!<br>' 
     }
+  };
+    //Przypisywanie wartości do ruchu
+  for (var i = 0; i < playerMoveButton.length; i++) {
+    playerMoveButton[i].addEventListener("click", function(event){
+      var dataMove = event.target.getAttribute('data-move');
+      playerMove(dataMove);
+    });
   };
