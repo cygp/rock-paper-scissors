@@ -62,15 +62,21 @@
       }
       if (params.playerScore == toWin(params.numberOfRunds) || params.computerScore == toWin(params.numberOfRunds)) {
           if (params.playerScore > params.computerScore) {
-            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU WON THE ENTIRE GAME!!!');
+            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
             log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
+            log(matchStat,'YOU WON THE ENTIRE GAME!!!');
+            showModal();
           } else {
-            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU LOSE THE ENTIRE GAME!!!');
+            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
             log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
+            log(matchStat,'YOU LOSE THE ENTIRE GAME!!!');
+            showModal();
           }
       } else if (params.playerScore + params.computerScore == params.numberOfRunds && params.computerScore < toWin(params.numberOfRunds) && params.playerScore < toWin(params.numberOfRunds)) {
-        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> DRAW IN THE ENTIRE GAME!!!'); //czy to jest ok?
+        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
         log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
+        log(matchStat,'DRAW IN THE ENTIRE GAME!!!');
+        showModal();
       } else {
         log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
         log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
@@ -88,3 +94,34 @@
       playerMove(dataMove);
     });
   };
+//modals
+var matchStat = document.getElementById('matchStat');
+var showModal = function(){
+    document.querySelector('#modal-overlay').classList.add('show');
+    document.querySelector('#modal-one').classList.add('show');
+  };
+//wyłączanie modala
+  var hideModal = function(event){
+    event.preventDefault();
+    document.querySelector('#modal-overlay').classList.remove('show');
+  };
+  
+  var closeButtons = document.querySelectorAll('.modal .close');
+  
+  for (var i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].addEventListener('click', hideModal);
+  }
+  
+  //umożliwianie zamykania modala poprzez kliknięcie w overlay. 
+  
+  document.querySelector('#modal-overlay').addEventListener('click', hideModal);
+  
+  //blokada propagacji kliknięć z samego modala - inaczej każde kliknięcie wewnątrz modala również zamykałoby go. 
+  
+  var modals = document.querySelectorAll('.modal');
+  
+  for (var i = 0; i < modals.length; i++) {
+    modals[i].addEventListener('click', function(event){
+      event.stopPropagation();
+    });
+  }
