@@ -2,9 +2,11 @@
   var result = document.getElementById('result');
   var rounds = document.getElementById('rounds');
   var playerMoveButton = document.querySelectorAll('.player-move');
-  var playerScore;
-  var computerScore;
-  var numberOfRunds = 0;
+  var params = {playerScore:'', computerScore:'', numberOfRunds: 0};
+
+  // var playerScore;
+  // var computerScore;
+  // var numberOfRunds = 0;
 
   //wyświetlanie tekstu
   var log = function(outputElement ,text){
@@ -15,18 +17,18 @@
   };
   //nowa gra
   var newGame = function(){
-    // numberOfRunds = 0; 
-    playerScore = 0;
-    computerScore = 0;
-    numberOfRunds = window.prompt('how many rounds do you want to play?');
+    // params.numberOfRunds = 0; 
+    params.playerScore = 0;
+    params.computerScore = 0;
+    params.numberOfRunds = window.prompt('how many rounds do you want to play?');
     result.innerHTML = '';
     output.innerHTML = '';
-    if (isNaN(numberOfRunds)) {
+    if (isNaN(params.numberOfRunds)) {
       log(rounds,'Please enter the number! <br>');
-    } else if (numberOfRunds <= 0 || numberOfRunds == 2) {
+    } else if (params.numberOfRunds <= 0 || params.numberOfRunds == 2) {
       log(rounds, 'The number must be greater than zero and different from two! <br>');
     } else {
-      log(rounds, 'You have chosen ' + numberOfRunds + ' rounds to win, you need ' + toWin(numberOfRunds) + ' wins');
+      log(rounds, 'You have chosen ' + params.numberOfRunds + ' rounds to win, you need ' + toWin(params.numberOfRunds) + ' wins');
     };
   };
   //przypisywanie stringa do wartości
@@ -48,33 +50,33 @@
     var playerChoise = playerChoise.toUpperCase();
     var gameResult;
     var computerMove = getComputerMove();
-    if (playerScore < toWin(numberOfRunds) && computerScore < toWin(numberOfRunds) && numberOfRunds > 0 && playerScore + computerScore != numberOfRunds) { //jeżeli liczba rund mieści się w limicie
+    if (params.playerScore < toWin(params.numberOfRunds) && params.computerScore < toWin(params.numberOfRunds) && params.numberOfRunds > 0 && params.playerScore + params.computerScore != params.numberOfRunds) { //jeżeli liczba rund mieści się w limicie
       if (moveValue(playerChoise) - moveValue(computerMove) == -1 || moveValue(playerChoise) - moveValue(computerMove) == 2) { //gra
         gameResult = '<strong><span style="color:#27ae60;">YOU WON!</span></strong>';
-        playerScore ++;
+        params.playerScore ++;
       } else if (moveValue(playerChoise) - moveValue(computerMove) == 0) {
          gameResult = '<span style="color:#f1c40f;">DRAW:</span>';
       } else {
          gameResult = '<span style="color:#e74c3c;">YOU LOSE:</span>';
-         computerScore ++;
+         params.computerScore ++;
       }
-      if (playerScore == toWin(numberOfRunds) || computerScore == toWin(numberOfRunds)) {
-          if (playerScore > computerScore) {
+      if (params.playerScore == toWin(params.numberOfRunds) || params.computerScore == toWin(params.numberOfRunds)) {
+          if (params.playerScore > params.computerScore) {
             log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU WON THE ENTIRE GAME!!!');
-            log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
+            log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
           } else {
             log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> YOU LOSE THE ENTIRE GAME!!!');
-            log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
+            log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
           }
-      } else if (playerScore + computerScore == numberOfRunds && computerScore < toWin(numberOfRunds) && playerScore < toWin(numberOfRunds)) {
+      } else if (params.playerScore + params.computerScore == params.numberOfRunds && params.computerScore < toWin(params.numberOfRunds) && params.playerScore < toWin(params.numberOfRunds)) {
         log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove + '<br> DRAW IN THE ENTIRE GAME!!!'); //czy to jest ok?
-        log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
+        log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
       } else {
         log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
-        log(result, 'Player ' + playerScore + ' - ' + 'Computer ' + computerScore);
+        log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
       }
     } else {
-          output.innerHTML += numberOfRunds ?
+          output.innerHTML += params.numberOfRunds ?
             'Game over, please press the new game button!<br>' :
             ' Please press the new game button!<br>' 
     }
