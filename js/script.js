@@ -3,8 +3,11 @@
   var rounds = document.getElementById('rounds');
   var scoreboard = document.getElementById('scoreboard');
   var matchStat = document.getElementById('matchStat');
+  var newGameButton = document.querySelector('.newgame');
+  var startButton = document.querySelector('.starter');
   var playerMoveButton = document.querySelectorAll('.player-move');
-  var params = {playerScore: '', computerScore: '', playerScore: '', gameResult: '', computerScore: 0, numberOfRunds: 0, round: '', progress:[]};
+  var statement = document.querySelector('#statement'); 
+  var params = {playerName: '', playerScore: '', computerScore: '', playerScore: '', gameResult: '', computerScore: 0, numberOfRunds: 0, round: '', progress:[]};
 
   //wyświetlanie tekstu
   var log = function(outputElement ,text){
@@ -14,22 +17,17 @@
    return !(numberOfRunds % 2) ? numberOfRunds/2 + 1 : Math.round(numberOfRunds / 2);
   };
   //nowa gra
-  var newGame = function(){
+  var newGame = function(numberOfRundsValue, playerNameValue){
+    params.playerName = playerNameValue.toUpperCase();
     params.progress = [];
     params.round = 0;
     params.playerScore = 0;
     params.computerScore = 0;
-    params.numberOfRunds = window.prompt('how many rounds do you want to play?');
+    params.numberOfRunds = numberOfRundsValue;
     result.innerHTML = '';
     output.innerHTML = '';
     scoreboard.innerHTML = '<tr><th>Round</th><th>Player move</th><th>Computer move</th><th>Result</th><th>Score</th></tr>';
-    if (isNaN(params.numberOfRunds)) {
-      log(rounds,'Please enter the number! <br>');
-    } else if (params.numberOfRunds <= 0 || params.numberOfRunds == 2) {
-      log(rounds, 'The number must be greater than zero and different from two! <br>');
-    } else {
-      log(rounds, 'You have chosen ' + params.numberOfRunds + ' rounds to win, you need ' + toWin(params.numberOfRunds) + ' wins');
-    };
+    log(rounds, 'You have chosen ' + params.numberOfRunds + ' rounds to win, you need ' + toWin(params.numberOfRunds) + ' wins');
   };
   //przypisywanie stringa do wartości
   function getComputerMove() {
@@ -87,24 +85,24 @@
       }
       if (params.playerScore == toWin(params.numberOfRunds) || params.computerScore == toWin(params.numberOfRunds)) {
           if (params.playerScore > params.computerScore) {
-            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
-            log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
-            log(matchStat,'YOU WON THE ENTIRE GAME!!!<br>');
+            log(output, gameResult + " " + params.playerName + " played: " + playerChoise + " computer played: " + computerMove);
+            log(result, 'Player ' + params.playerScore + ' - '  + params.computerScore + ' Computer');
+            log(matchStat,'<strong><span style="color:#27ae60;">YOU WON THE ENTIRE GAME!!!</span><br>');
             table();
           } else {
-            log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
-            log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
-            log(matchStat,'YOU LOSE THE ENTIRE GAME!!!<br>');
+            log(output, gameResult + " " + params.playerName + " played: " + playerChoise + " computer played: " + computerMove);
+            log(result, 'Player ' + params.playerScore + ' - '  + params.computerScore + ' Computer');
+            log(matchStat,'<span style="color:#e74c3c;">YOU LOSE THE ENTIRE GAME!!!</span><br>');
             table();
           }
       } else if (params.playerScore + params.computerScore == params.numberOfRunds && params.computerScore < toWin(params.numberOfRunds) && params.playerScore < toWin(params.numberOfRunds)) {
-        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
-        log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
-        log(matchStat,'DRAW IN THE ENTIRE GAME!!!<br>');
+        log(output, gameResult + " " + params.playerName + " played: " + playerChoise + " computer played: " + computerMove);
+        log(result, 'Player ' + params.playerScore + ' - '  + params.computerScore + ' Computer');
+        log(matchStat,'<span style="color:#f1c40f;">DRAW IN THE ENTIRE GAME!!!</span><br>'); 
         table();
       } else {
-        log(output, gameResult + " you played: " + playerChoise + " computer played: " + computerMove);
-        log(result, 'Player ' + params.playerScore + ' - ' + 'Computer ' + params.computerScore);
+        log(output, gameResult + " " + params.playerName + " played: " + playerChoise + " computer played: " + computerMove);
+        log(result, 'Player ' + params.playerScore + ' - '  + params.computerScore + ' Computer');
       }
     } else {
           output.innerHTML += !isNaN(params.numberOfRunds) && params.numberOfRunds > 0 && params.numberOfRunds != 2 ?
@@ -119,11 +117,20 @@
       playerMove(dataMove);
     });
   };
+  //przycisk new game
+  newGameButton.addEventListener("click", function(event){
+      statement.innerHTML = '';
+      var gameStart = event.target.getAttribute('data-move');
+      showModal(gameStart);
+  });
 //modals
-var showModal = function(){
+var showModal = function(dataMove){ 
     document.querySelector('#modal-overlay').classList.add('show');
-    document.querySelector('#modal-one').classList.add('show');
-  };
+    dataMove ? 
+      document.querySelector('#modal-two').classList.add('show') :
+      document.querySelector('#modal-two').classList.remove('show');
+      document.querySelector('#modal-one').classList.add('show');
+};
 //wyłączanie modala
   var hideModal = function(event){
     event.preventDefault();
@@ -139,11 +146,25 @@ var showModal = function(){
   //umożliwianie zamykania modala poprzez kliknięcie w overlay. 
   
   document.querySelector('#modal-overlay').addEventListener('click', hideModal);
-  
+
+  //zamykanie modala po kliknięiu w przycisk start
+  startButton.addEventListener("click", function(event){
+    var numberOfRundsValue = document.getElementById('number-of-rounds').value;
+    var playerNameValue = document.getElementById('playerName').value;
+    playerNameValue ? playerNameValue = playerNameValue : playerNameValue = 'anonymous ninja';
+    if (isNaN(numberOfRundsValue)) {
+      statement.insertAdjacentHTML("afterBegin",'<span style="color:#e74c3c;">Please enter the number</span><br>');
+    } else if (numberOfRundsValue <= 0 || numberOfRundsValue == 2) {
+      statement.insertAdjacentHTML("afterBegin",'<span style="color:#e74c3c;">The number must be greater than zero and different from two</span><br>');
+    } else {
+    hideModal(event);
+    newGame(numberOfRundsValue, playerNameValue); 
+  }
+  });
   //blokada propagacji kliknięć z samego modala - inaczej każde kliknięcie wewnątrz modala również zamykałoby go. 
   
   var modals = document.querySelectorAll('.modal');
-  
+   
   for (var i = 0; i < modals.length; i++) {
     modals[i].addEventListener('click', function(event){
       event.stopPropagation();

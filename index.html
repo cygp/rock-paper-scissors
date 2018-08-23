@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="pl" >
-<head>
-  <meta charset="UTF-8">
-  <title>Rock Paper Scissors</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="container">
-  <button data-move="paper" class="player-move">PAPER</button>
-  <button data-move="rock" class="player-move">ROCK</button>
-  <button data-move="scissors" class="player-move">SCISSORS</button>
-  <div id="output"></div>
-  <div id="result"></div>
-  <div id="rounds"></div>
-  <button class="newgame" onclick="newGame()">NEW GAME</button>
-  </div>
-  <div class="overlay" id="modal-overlay">
-    <div class="modal" id="modal-one">
-      <a href="#" class="close">x</a>
-      <header>Game over</header>
-      <div clsas="content" id="matchStat">
-      </div>
-      <table id="scoreboard">
-      </table>
+  <head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="container">
+    <button data-move="paper" class="player-move">paper</button>
+    <button data-move="rock" class="player-move">rock</button>
+    <button data-move="scissors" class="player-move">scissors</button>
+    <div id="output"></div>
+    <div id="result"></div>
+    <div id="rounds"></div>
+    <button data-move="newgame" class="newgame">new game</button> 
     </div>
-  </div>
-  <script  src="js/script.js"></script>
-</body>
+    <div class="overlay" id="modal-overlay">
+      <div class="modal" id="modal-one">
+        <a href="#" class="close">x</a>
+        <header>Game over</header>
+        <div class="content" id="matchStat"> 
+        </div>
+        <table id="scoreboard">
+        </table>
+      </div>
+      <div class="modal" id="modal-two">
+        <a href="#" class="close">x</a>
+        <header>Hello</header>
+        <p>Enter your name:</p>
+        <input type="text" id="playerName" placeholder="Your name">
+        <p>How many rounds do you want to play?</p>
+        <input type="text" id="number-of-rounds" placeholder="Number of rounds">
+        <div id="statement"></div>
+        <hr>
+        <button class="starter">start</button>
+      </div>
+    </div>
+    <script  src="js/script.js"></script>
+  </body>
 </html>

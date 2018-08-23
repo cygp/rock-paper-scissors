@@ -11,11 +11,13 @@ body {
     border-radius: 5px;
     border: 2px solid #e74c3c;
     margin: 5px 0;
+    text-transform: uppercase;
     &:focus {
       outline: 0;
     }
   }
-  .newgame {
+  .newgame, 
+  .starter {
     background-color: #3498db;
     border: 2px solid #3498db;
   }
@@ -35,6 +37,7 @@ body {
     margin: 0 auto;
     color: #000;
     display: none;
+    padding: 10px;
     background: #fff;
     width: 500px;
     min-height: 70px;
