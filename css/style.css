@@ -10,7 +10,7 @@ body .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; he
 
 body .overlay.show { display: block; }
 
-body .modal { color: #000; display: none; background: #fff; width: 300px; min-height: 70px; position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); }
+body .modal { margin: 0 auto; color: #000; display: none; background: #fff; width: 500px; min-height: 70px; position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); }
 
 body .modal.show { display: block; }
 
@@ -19,3 +19,5 @@ body .modal .close { position: absolute; right: 0; top: 0; padding: 5px; color: 
 body .modal header { font-size: 20px; line-height: 30px; min-height: 30px; font-weight: bold; padding: 0 30px; }
 
 body .modal .content { min-height: 30px; padding: 5px 30px; }
+
+body .modal table { margin: 0 auto; }
