@@ -1,3 +1,4 @@
+(function(){
   var output = document.getElementById('output');
   var result = document.getElementById('result');
   var rounds = document.getElementById('rounds');
@@ -170,3 +171,4 @@ var showModal = function(dataMove){
       event.stopPropagation();
     });
   }
+})();
